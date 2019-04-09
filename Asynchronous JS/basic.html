@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JS</title>
+</head>
+
+<body>
+    <h1>Hi there JS</h1>
+
+    <script>
+        function getRecepie() {
+            setTimeout(() => {
+                const recipeIDs = [555, 311, 405, 134];
+                console.log(recipeIDs);
+
+                setTimeout((id) => {
+                    const recipe = {
+                        title: 'Fresh tomato pasta',
+                        publisher: 'Andrulya'
+                    };
+                    console.log(`${id}, recipe: ${recipe.title}`);
+                    setTimeout(publisher => {
+                        const recipe = {
+                            title: 'Fried potatoes with lemon juice',
+                            publisher: publisher
+                        };
+                        console.log(`${publisher}, recipe: ${recipe.title}`);
+                    }, 1500, recipe.publisher);
+                }, 1000, recipeIDs[3]);
+            }, 1500);
+        }
+        // What we really did here is a so-called "timeout hell", when 
+        //all these callbacks are nested one inside another so that
+        // timeout becomes really unrestrained
+
+        getRecepie();
+    </script>
+</body>
+
+</html>
