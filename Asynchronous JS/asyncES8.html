@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Async/Await</title>
+</head>
+
+<body>
+    <h1>Async Replacement For Promises</h1>
+    <h2>In 2017 Async/Await were introduced to manage all the promises-consuming inconveniences</h2>
+
+    <script>
+        /**
+        We leave all the promises creation steps, but change the way we consume them      
+        */
+
+        const getIDs = new Promise(
+            (resolve, reject) => {
+                setTimeout(() => {
+                    const recipeIDs = [555, 311, 405, 134];
+                    resolve(recipeIDs);
+                }, 1500);
+            });
+
+
+        const getRecipe = ID => {
+            return new Promise((resolve, reject) => {
+                setTimeout(id => {
+                    const recipe = {
+                        title: 'Fresh tomato pasta',
+                        publisher: 'Andrulya'
+                    };
+                    resolve(`${id}: ${recipe.title}`);
+
+                }, 1500, ID);
+            });
+        };
+
+        const getRelatedRecipe = publisher => {
+            return new Promise((resolve, reject) => {
+                setTimeout(publisher => {
+                    const recipe = {
+                        title: 'Fried potatoes with lemon juice',
+                        publisher: publisher
+                    };
+                    resolve(`publisher:${publisher}. Title:${recipe.title}`);
+                }, 1500, publisher);
+            });
+        };
+
+        async function getRecipesAW() {
+            const IDs = await getIDs // The result of await expr will be the resolved value of the promise
+            console.log(IDs);
+            const recipe = await getRecipe(IDs[2]);
+            console.log(recipe);
+            const relRecipe = await getRelatedRecipe('Andrew');
+            console.log(relRecipe);
+
+            return recipe; // When a value is returned from an async function, this value is actually resolved in a promise that is always automatically returned by async functions
+        }
+       
+        getRecipesAW()
+        .then(rec=>{
+            console.log(rec);
+        });     // This is a promise, so we can use .then()
+        
+    </script>
+</body>
+
+</html>
